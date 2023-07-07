@@ -205,6 +205,7 @@ fn verify_cert_chain(root_cert: &X509, cert: &X509, cabundle: &[X509]) -> Result
 
 fn main() {
     // init the nsm module and get the file descriptor
+    println!("start running...");
     let fd = match nsm_init() {
         fd if fd > 0 => fd,
         _ => {
@@ -219,9 +220,9 @@ fn main() {
 
     println!("verify ok for the first time");
 
-    // sleep 2 days
-    println!("now sleep 2 days...");
-    sleep(Duration::from_secs(24 * 3600 * 2));
+    // sleep 0.5 days
+    println!("now sleep 0.5 days...");
+    sleep(Duration::from_secs(12 * 3600));
     // get attestation document again
     let doc = get_attestation_doc(fd, None, None, None).expect("get doc failed");
     // !!!! this time document verify failed
