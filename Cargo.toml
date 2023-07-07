@@ -1,0 +1,15 @@
+[package]
+name = "enclave-issue"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+aws-nitro-enclaves-nsm-api = { git = "https://github.com/aws/aws-nitro-enclaves-nsm-api.git/", tag = "v0.3.0" }
+nsm_lib = { git = "https://github.com/aws/aws-nitro-enclaves-nsm-api.git/", tag = "v0.3.0", package = "nsm-lib" }
+ciborium = "0.2"
+coset = "0.3"
+openssl = "0.10.41"
+thiserror = "1.0"
+base64 = "0.13"
