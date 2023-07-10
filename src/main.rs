@@ -220,14 +220,22 @@ fn main() {
 
     println!("verify ok for the first time");
 
-    // sleep 0.5 days
-    println!("now sleep 0.5 days...");
-    sleep(Duration::from_secs(12 * 3600));
-    // get attestation document again
-    let doc = get_attestation_doc(fd, None, None, None).expect("get doc failed");
-    // !!!! this time document verify failed
-    verify_attest_doc(&doc).expect("verify doc failed");
+    let mut try_times = 0;
+    loop {
+        if try_times > 10 {
+            println!("try out, eveything seems ok.");
+            break;
+        }
+        // sleep 0.5 days
+        println!("now sleep 0.5 days...");
+        sleep(Duration::from_secs(12 * 3600));
+        // get attestation document again
+        let doc = get_attestation_doc(fd, None, None, None).expect("get doc failed");
+        // !!!! this time document verify failed
+        verify_attest_doc(&doc).expect("verify doc failed");
 
-    // this log will never success
-    println!("verify ok for the second time");
+        // this log will never success
+        println!("verify ok for the {} time", try_times + 2);
+        try_times += 1;
+    }
 }
