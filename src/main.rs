@@ -17,7 +17,7 @@ use openssl::{
 use std::{
     str,
     thread::sleep,
-    time::{Duration, SystemTime, UNIX_EPOCH},
+    time::{Duration, SystemTime},
 };
 use thiserror::Error;
 
@@ -153,10 +153,8 @@ fn verify_attest_doc(attest_doc: &str) -> Result<()> {
     let cert = X509::from_der(&att_doc.certificate)
         .map_err(|e| UtilErr::NsmErr(format!("x509 my cert from_der: {}", e)))?;
 
-    let now_ts = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .unwrap()
-        .as_secs();
+    let now = humantime::format_rfc3339(SystemTime::now());
+    println!("not before: {}, now: {}", cert.not_before(), &now);
     // !!! the cert chain verification failed below for an enclave running 2 days
     if let Err(err) = verify_cert_chain(&root_cert, &cert, &cabundle) {
         if matches!(err, UtilErr::NsmErr(err_msg) if err_msg == "certificate is not yet valid") {
@@ -164,7 +162,7 @@ fn verify_attest_doc(attest_doc: &str) -> Result<()> {
                 "cert not before: {}, not after: {}, now: {}",
                 cert.not_before().to_string(),
                 cert.not_after().to_string(),
-                now_ts,
+                &now,
             );
         }
         return Err(UtilErr::NsmErr("cert chain invalid".to_owned()));
