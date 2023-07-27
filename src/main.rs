@@ -220,10 +220,6 @@ fn main() {
 
     let mut try_times = 0;
     loop {
-        if try_times > 10 {
-            println!("try out, eveything seems ok.");
-            break;
-        }
         // sleep 0.5 days
         println!("now sleep 0.5 days...");
         sleep(Duration::from_secs(12 * 3600));
