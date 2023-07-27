@@ -1,7 +1,9 @@
 .PHONY: build-eif run log stop all
 
-build-eif:
+image:
 	docker build -t enclave-issue -f container/enclave.Dockerfile .
+
+build-eif: image
 	nitro-cli build-enclave --docker-uri enclave-issue --output-file enclave-issue.eif
 
 run:
