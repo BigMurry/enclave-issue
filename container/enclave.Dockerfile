@@ -9,5 +9,6 @@ FROM --platform=linux/amd64 debian:bullseye-slim as runtime
 RUN apt-get update && apt-get install -y openssl chrony
 WORKDIR app
 COPY --from=builder /app/target/release/enclave-issue /usr/local/bin
+COPY --from=builder /app/run.sh /app
 
 ENTRYPOINT ["/app/run.sh"]
