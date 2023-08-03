@@ -12,4 +12,4 @@ COPY --from=builder /app/target/release/enclave-issue /usr/local/bin
 COPY --from=builder /app/run.sh /app
 RUN chmod +x /app/run.sh
 
-ENTRYPOINT ["/app/run.sh"]
+ENTRYPOINT ["/app/run.sh", "enclave-issue"]
